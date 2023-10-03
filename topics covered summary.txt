@@ -1,0 +1,70 @@
+react-hook-form for sending form data as object
+{ useForm } hook from react-hook-form is used
+
+yup is used to validate form data on frontend
+
+{ yupResolver } from @hookform/resolvers/yup  is used for integrating react-hook-form and yup validation
+
+
+npm install react-hook-form
+npm install @hookform/resolvers/yup
+
+----------------------------------------------------------------------------------------------------------------------
+
+
+const {register, handleSubmit, formState:{errors}} = useForm({resolver: yupResolver(schema)});
+
+
+
+
+
+A schema is made for yup validation, in which we set our object shape, meaning the conditions for validation and errors.
+syntax:
+    const schema = yup.object().shape({
+        fullName: yup.string().required("custom error message for required field"),
+        password: yup.string().min(5).required(),
+        confirmPassword: yup.string().oneOf( [ yup.ref("password"),null ], "Passwords don't match").required(),
+    });
+
+
+
+
+
+
+
+register is used for giving names, to different fields of the form, for real working.
+syntax:
+    <input type="text" {...register("fullName")} />
+
+
+
+
+
+
+
+We make a function for doing anything with the form data. This function is called by handleSubmit() function which we pass in onSubmit event.
+syntax:
+    <form onSubmit={handleSubmit(ourSubmitFunction)} >
+    .
+    .
+    .
+    </form>
+
+    const ourSubmitFunction=(formdata)=>{
+        console.log(formdata);
+    }
+
+
+
+
+
+
+In formState:{errors} , errors is an object that has all the errors in all the fields of the form, if any.
+We can target a specific field error.
+syntax:
+    errors.fullName.message
+This gives the error message in fullName
+We can write custom error messages in yup schema that we defined earlier.
+
+
+----------------------------------------------------------------------------------------------------------------------
